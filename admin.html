@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<style>
+ 
+#cards{
+border: 1px solid #1D4ED8;
+border-radius: 21px;
+margin-left: px;
+background: rgba(29, 78, 216, 0.06);
+width: 300px;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 10%;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+li a.active {
+  background-color: #1D4ED8;
+  color: white;
+}
+
+li a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+</style>
+</head>
+<body>
+
+<ul>
+  <li><a class="active" href="#home">Home</a></li>
+  <li><a href="newpost.html">Add New Post</a></li>
+<button onclick="Logout();">Logout</button>
+</ul>
+
+<div style="margin-left:25%;padding:1px 16px;height:1000px;">
+  
+  
+ 
+</div>
+<div class="container">
+    <div class="row">
+</div>
+<div class="row">
+  <div class="cards" id="showPosts">
+  </div>
+  <center>
+      <div class="col-md-4" id="cards" style=" margin-top:-80%;">
+  
+      <h3>Welcome <script>document.write(localStorage.getItem('username'));</script> to Admin DashBoard </h3>
+        <div class="col-md-4" id="cards">
+      <h4>Comments</h4>
+     <h2>
+       4
+
+     </h2>
+      </div>
+      <div class="col-md-4" id="cards">
+  
+    <h4>Posts</h4>
+     <h2>
+       5
+     </h2>
+      </div>
+      <div class="col-md-4" id="cards">
+  
+      <h4>Users</h4>
+     <h2>
+      10
+     </h2>
+      </div>
+      </div>
+      </center>
+     
+
+</body>
+ <script>
+        let name=localStorage.getItem('username')?localStorage.getItem('username'):''
+        console.log(username);
+        if(username=='')
+        {
+          alert('U need to login first');
+          window.location.href="login.html";
+        }
+        function Logout()
+        {
+          localStorage.removeItem('username');
+          localStorage.removeItem('password');
+          window.location.href="login.html";
+        }
+  </script>
+</html>
+     
+
+      
