@@ -6,7 +6,7 @@ author=document.getElementById("author").value;
 body=document.getElementById("body").value;
 
 let posts=new Array();
-posts=JSON.parse(localStorage.getItem("post"))?JSON.parse(localStorage.getItem("post")):[]
+posts=JSON.parse(localStorage.getItem("posts"))?JSON.parse(localStorage.getItem("posts")):[]
 if(posts.some((v)=>{return v.title==title}))
 {
   alert("duplicate data");
