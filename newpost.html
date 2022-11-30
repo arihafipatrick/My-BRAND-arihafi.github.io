@@ -74,7 +74,7 @@
     <br><br>
         <div class="col-md-8">
 
-  <form autocomplete="off">
+  <form  name="postForm">
                      
                           <label></label><label class="validation-error hide" id="titleValidationError"></label><br>
                           <input type="text" name="title" id="title" class="form-control" placeholder="Title">
@@ -85,7 +85,7 @@
                           <label></label><br>
                           <textarea name="body" id="body" rows="5" class="form-control"></textarea><br>
                      
-                          <input onclick="store()" type="submit" value="Submit" class="btn btn-primary" style="background-color: #1D4ED8;"><br><br>
+                          <input type="submit" value="Submit" class="btn btn-primary" style="background-color: #1D4ED8;"><br><br>
                   </form>
 
    </div>  
@@ -93,8 +93,17 @@
 
  
     </div>
+     <div class="col-sm-9">
+      <div class="well">
+        <h4>Post  List</h4>
+        <div class="row">
+          <div class="col-sm-9" id="postList">
+           
+          </div>
+        </div>
+      </div>
   </div>
 </div>
-
+<script type="module" src="postapp.js"></script>
 </body>
 </html>
