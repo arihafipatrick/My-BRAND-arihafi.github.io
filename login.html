@@ -208,10 +208,11 @@ right: 0px;
 <div class="col-md-4" id="cards">
         <center>
           <h2 class="kuruhandee">Login</h2>
+          <span id="invalid" style="color:red;"></span>
           <form>
-      <input type="text" class="form-control" placeholder="Username" id="userName" required><br>
+      <input type="text" class="form-control" placeholder="Username" name="userName" id="userName"><span id="usernamevar" style="color:red;"></span><br>
    
-      <input type="password" class="form-control" placeholder="Password" id="userPassword" required><br>
+      <input type="password" class="form-control" placeholder="Password" name="Password" id="userPassword"><span id="passwordvar" style="color:red;"></span><br>
       
      <input type="reset" value="Login" class="btn btn-primary" style="background-color: #1D4ED8;" onclick="check()"><br>Don't have an account?<a href="signup.html">Register</a>
    </form>

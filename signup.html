@@ -200,12 +200,13 @@ right: 0px;
 <div class="col-md-4" id="cards">
         <center>
           <h2 class="kuruhandee">Register</h2>
-          <form>
-      <input type="text" class="form-control" placeholder="Username" id="username"><br>
-   
-      <input type="password" class="form-control" placeholder="Password" id="password"><br>
+          <span id="taken" style="color:red;"></span>
+          <form name="f1">
+      <input type="text" class="form-control" name="userName" placeholder="Username" id="username"><span id="usernamevar" style="color:red;"></span>
+   <br>
+      <input type="password" class="form-control" name="Password" placeholder="Password" id="password"><span id="passwordvar" style="color:red;"></span><br><br>
       
-     <input type="reset" value="Register" class="btn btn-primary" style="background-color: #1D4ED8;" onclick="store()"><br></input>Have an account?<a href="login.html">Login</a>
+     <input type="reset" value="Register" class="btn btn-primary" style="background-color: #1D4ED8;" onclick="store()" ><br></input>Have an account?<a href="login.html">Login</a>
    </form>
    </center>
       </div>
@@ -226,7 +227,7 @@ right: 0px;
     <div class="col">
      
     </div>
-  </div>
+  </div>  
    <script src="register.js"></script>
 </body>
 </html>
