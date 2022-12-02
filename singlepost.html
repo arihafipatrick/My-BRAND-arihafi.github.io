@@ -176,6 +176,21 @@ right: 0px;
 			background-color: #fff;
 			border: 2px solid #fff;
 		}
+
+/*    like butonn*/
+
+.like__btn {
+  padding: 10px 15px;
+  background: #1D4ED8;
+  font-size: 18px;
+  font-family: "Open Sans", sans-serif;
+  border-radius: 5px;
+  color: #ffff;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
 	</style>
 <body>
 <div class="iyi">
@@ -206,54 +221,67 @@ right: 0px;
 
 <div class="container">
   	<div class="row">
-  		<div class="col-md-12">
-      <h1 class="kuruhande">Blogs</h1>  
-        <p>Discover some fascinating, cool posts!</p>
-</div>
-</div>
-<div class="row">
-  <div class="cards" id="postList">
-  </div>
-  		<div class="col-md-4" id="cards">
-  
-      <h4>Post 1</h4>
-     <p>
-       Discover some fascinating
-cool posts ome fascinating
-Discover some fascinating
-cool posts ome fascin.
+  		<div class="col-md-20">
+      <h1 class="kuruhande">My First Day at Andela</h1>  
+        <p>
+Iyi raporo ya EIU yagaragaje ko uyu mwaka ikiguzi cyo kuba mu mijyi ikomeye ku Isi cyiyongereyeho 8.1%. Intambara ya Ukraine n’ingaruka za Covid-19 ku ruhererekane rw’ibicuruzwa bishyirwa ku isonga mu byatumye ubu bwiyongere bubaho.
 
-     </p>
-     
-       <a href="singlepost.html"><button type="button" class="btn btn-primary" style="margin-left:140px;background-color: #1D4ED8;">Read More>></button></a>
-     
-      </div>
-      <div class="col-md-4" id="cards">
-  
-    <h4>Post 2</h4>
-     <p>
-       Discover some fascinating
-cool posts ome fascinating
-Discover some fascinating
-cool posts ome fascin.
-     </p>
-     <button type="button" class="btn btn-primary" style="margin-left:140px; background-color: #1D4ED8;">Read More>></button>
-      </div>
-      <div class="col-md-4" id="cards">
-  
-      <h4>Post 3</h4>
-     <p>
-       Discover some fascinating
-cool posts ome fascinating
-Discover some fascinating
-cool posts ome fascin.
-     </p>
-     <button type="button" class="btn btn-primary" style="margin-left:140px; background-color: #1D4ED8;">Read More>></button>
+Urugero nko mu mujyi wa Istanbul izamuka ry’ibiciro ryiyongereyeho 86%, muri Buenos Aires ryiyongeraho 64%mu gihe nko muri Tehran ryiyongereyeho 57%.
 
+Ubushakashatsi bwa EIU bwagereranyije ikiguzi cy’ibicuruzwa na serivisi mu mijyi 173 yo hirya no hino ku Isi. Hanarebwaga ibiciro by’ibicuruzwa na serivisi zikenerwa buri munsi bigera kuri 200.
+
+Izamuka ry’ibiciro muri Leta Zunze Ubumwe za Amerika ni imwe mu mpamvu ikomeye yatumye New York iba umujyi wa mbere uhenze ku Isi. Ni mu gihe Los Angeles na San Francisco, nayo iri mu mijyi ya mbere 10 ihenze uyu mwaka.
+
+Ni ubwa mbere mu myaka 40 ishize izamuka ry’ibiciro rigera ku gipimo ririho muri Leta zunze Ubumwe za Amerika, aho muri Nyakanga ryageze ku 9.1% mu mezi 12 yari ashize.
+
+EIU yavuze ko ‘intambara ya Ukraine, ibihano by’Abanyaburayi n’Abanyamerika ku Burusiya ndetse n’ingaruka za Covid-19 byabangamiye uruhererekane rw’ibicuruzwa, inyungu ku nguzanyo zirazamuka n’isoko ry’ivunjisha rigira ibibazo bituma ikiguzi cyo kubaho kizamuka ku isi’.
+
+        </p>
+        <hr>
+        <button class="like__btn">
+   <span id="icon"><i class="far fa-thumbs-up"></i></span>
+   <span id="count">0</span> Like
+</button>
+</div>
+
+  <div class="col-md-8">
+    <form name="commentForm">
+      <textarea name="comment" id="comment" rows="5" class="form-control" placeholder="Add your comment here" required></textarea><span id="commentnav" style="color:red;"></span><br>
+    <button type="submit" style="background-color: #1D4ED8;" class="btn btn-primary">Add Comment</button>
+    </form>
+    <div class="col-sm-9">
+      <div class="well">
+        <h4>Comments</h4>
+        <div class="row">
+          <div class="col-sm-9">
+           <p class="postList"> 
+            
+           </p>
+           <p id="comment_time"></p>
+          </div>
+        </div>
       </div>
-  	</div>
-  	</div>
-   
+  </div
+      </div>
+    </div>
+      <script>
+  const likeBtn = document.querySelector(".like__btn");
+let likeIcon = document.querySelector("#icon"),
+  count = document.querySelector("#count");
+let clicked = false;
+likeBtn.addEventListener("click", () => {
+  if (!clicked) {
+    clicked = true;
+    likeIcon.innerHTML = `<i class="fas fa-thumbs-up"></i>`;
+    count.textContent++;
+  } else {
+    clicked = false;
+    likeIcon.innerHTML = `<i class="far fa-thumbs-up"></i>`;
+    count.textContent--;
+  }
+});
+</script>
+<script src="comment.js" type="module"></script>
 </body>
 </html>
 
