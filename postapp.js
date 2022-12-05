@@ -6,7 +6,7 @@ console.log(uid());
 const IDB = (function init() {
   let db = null;
   let objectStore = null;
-  let DBOpenReq = indexedDB.open('WhiskeyDB', 6);
+  let DBOpenReq = indexedDB.open('postDB', 6);
 
   DBOpenReq.addEventListener('error', (err) => {
     //Error occurred while trying to open DB
@@ -27,8 +27,8 @@ const IDB = (function init() {
     console.log('DB updated from version', oldVersion, 'to', newVersion);
 
     console.log('upgrade', db);
-    if (!db.objectStoreNames.contains('whiskeyStore')) {
-      objectStore = db.createObjectStore('whiskeyStore', {
+    if (!db.objectStoreNames.contains('postStore')) {
+      objectStore = db.createObjectStore('postStore', {
         keyPath: 'id',
       });
     }
@@ -40,23 +40,23 @@ const IDB = (function init() {
     let country = document.getElementById('country').value.trim();
     let body =  document.getElementById('body').value.trim();
     //id
-    let key = document.whiskeyForm.getAttribute('data-key');
+    let key = document.postForm.getAttribute('data-key');
     if (key) {
-      let whiskey = {
+      let post = {
         id: key,
         name,
         country,
         body
       };
-      let tx = makeTX('whiskeyStore', 'readwrite');
+      let tx = makeTX('postStore', 'readwrite');
       tx.oncomplete = (ev) => {
         console.log(ev);
         buildList();
         clearForm();
       };
 
-      let store = tx.objectStore('whiskeyStore');
-      let request = store.put(whiskey); //request a put/update
+      let store = tx.objectStore('postStore');
+      let request = store.put(post); //request a put/update
 
       request.onsuccess = (ev) => {
         console.log('successfully updated an object');
@@ -72,16 +72,16 @@ const IDB = (function init() {
   document.getElementById('btnDelete').addEventListener('click', (ev) => {
     ev.preventDefault();
     //id
-    let key = document.whiskeyForm.getAttribute('data-key');
+    let key = document.postForm.getAttribute('data-key');
     if (key) {
-      let tx = makeTX('whiskeyStore', 'readwrite');
+      let tx = makeTX('postStore', 'readwrite');
       tx.oncomplete = (ev) => {
         console.log(ev);
         buildList();
         clearForm();
       };
 
-      let store = tx.objectStore('whiskeyStore');
+      let store = tx.objectStore('postStore');
       let request = store.delete(key); //request a delete
 
       request.onsuccess = (ev) => {
@@ -104,22 +104,22 @@ const IDB = (function init() {
     let country = document.getElementById('country').value.trim();
     let body = document.getElementById('body').value.trim();
 
-    let whiskey = {
+    let post = {
       id: uid(),
       name,
       country,
       body,
     };
 
-    let tx = makeTX('whiskeyStore', 'readwrite');
+    let tx = makeTX('postStore', 'readwrite');
     tx.oncomplete = (ev) => {
       console.log(ev);
       buildList();
       clearForm();
     };
 
-    let store = tx.objectStore('whiskeyStore');
-    let request = store.add(whiskey); //request an insert/add
+    let store = tx.objectStore('postStore');
+    let request = store.add(post); //request an insert/add
 
     request.onsuccess = (ev) => {
       console.log('successfully added an object');
@@ -135,11 +135,11 @@ const IDB = (function init() {
     //use getAll to get an array of objects from our store
     let list = document.querySelector('.wList');
     list.innerHTML = `<li>Loading...</li>`;
-    let tx = makeTX('whiskeyStore', 'readonly');
+    let tx = makeTX('postStore', 'readonly');
     tx.oncomplete = (ev) => {
       //transaction for reading all objects is complete
     };
-    let store = tx.objectStore('whiskeyStore');
+    let store = tx.objectStore('postStore');
     let getReq = store.getAll();
     //returns an array
     //option can pass in a key or a keyRange
@@ -148,8 +148,8 @@ const IDB = (function init() {
       let request = ev.target; //request === getReq === ev.target
       console.log({ request });
       list.innerHTML = request.result
-        .map((whiskey) => {
-          return `<p data-key="${whiskey.id}"><span><b>Title:</b>${whiskey.name}</span></br><span><b>Author:</b>${whiskey.country}</span></br> <b>Body:</b> ${whiskey.body}</p><hr>`;
+        .map((post) => {
+          return `<p data-key="${post.id}"><span><b>Title:</b>${post.name}</span></br><span><b>Author:</b>${post.country}</span></br> <b>Body:</b> ${post.body}</p><hr>`;
         })
         .join('\n');
     };
@@ -163,21 +163,21 @@ const IDB = (function init() {
     let id = li.getAttribute('data-key');
     console.log(li, id);
 
-    let tx = makeTX('whiskeyStore', 'readonly');
+    let tx = makeTX('postStore', 'readonly');
     tx.oncomplete = (ev) => {
       //get transaction complete
     };
-    let store = tx.objectStore('whiskeyStore');
+    let store = tx.objectStore('postStore');
     let req = store.get(id);
     req.onsuccess = (ev) => {
       let request = ev.target;
-      let whiskey = request.result;
-      document.getElementById('name').value = whiskey.name;
-      document.getElementById('country').value = whiskey.country;
-      document.getElementById('body').value = whiskey.body;
+      let post = request.result;
+      document.getElementById('name').value = post.name;
+      document.getElementById('country').value = post.country;
+      document.getElementById('body').value = post.body;
       
-      //put the whiskey id into a form attribute
-      document.whiskeyForm.setAttribute('data-key', whiskey.id);
+      //put the post id into a form attribute
+      document.postForm.setAttribute('data-key', post.id);
     };
     req.onerror = (err) => {
       console.warn(err);
@@ -196,7 +196,7 @@ const IDB = (function init() {
 
   function clearForm(ev) {
     if (ev) ev.preventDefault();
-    document.whiskeyForm.reset();
-    document.whiskeyForm.removeAttribute('data-key');
+    document.postForm.reset();
+    document.postForm.removeAttribute('data-key');
   }
 })();
