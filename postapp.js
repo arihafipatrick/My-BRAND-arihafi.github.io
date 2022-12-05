@@ -1,125 +1,202 @@
-//Function that is  generation postIds
-const uid = () => {
-  let randy = parseInt(Math.random() * Number.MAX_SAFE_INTEGER);
-  return randy;
-};
+import { uid } from './uid.js';
+console.log(uid());
+//nothing else to import because we are using the built in methods
+//https://developer.mozilla.org/en-US/docs/Web/API/IDBDatabase
+
 const IDB = (function init() {
   let db = null;
   let objectStore = null;
-  let DBOpenReq = indexedDB.open('PostDB', 8);
-DBOpenReq.addEventListener('error', (err) => {
-	//error occured while trying to open DB
-	console.warn(err);
-});
+  let DBOpenReq = indexedDB.open('WhiskeyDB', 6);
 
-DBOpenReq.addEventListener('success', (ev) => {
-	//DB has been opened... after upgradeneeded
-	db = ev.target.result;
-	console.log('success', db);
-	buildList();
-});
+  DBOpenReq.addEventListener('error', (err) => {
+    //Error occurred while trying to open DB
+    console.warn(err);
+  });
+  DBOpenReq.addEventListener('success', (ev) => {
+    //DB has been opened... after upgradeneeded
+    db = ev.target.result;
+    console.log('success', db);
+    buildList();
+  });
+  DBOpenReq.addEventListener('upgradeneeded', (ev) => {
+    //first time opening this DB
+    //OR a new version was passed into open()
+    db = ev.target.result;
+    let oldVersion = ev.oldVersion;
+    let newVersion = ev.newVersion || db.version;
+    console.log('DB updated from version', oldVersion, 'to', newVersion);
 
-DBOpenReq.addEventListener('upgradeneeded', (ev) => {
-	//first time opening this DB 
-	//OR  a new version was passed into open()
-	db = ev.target.result;
-	let oldVersion = ev.oldVersion;
-	let newVersion = ev.newVersion;
-	console.log('DB updated from Version',oldVersion, 'to', 'newVersion');
-	console.log('upgrade', db);
-	if(! db.objectStoreNames.contains('PostStore')){
-	objectStore = db.createObjectStore('PostStore',{keyPath: 'postId', autoIncrement: true});}
+    console.log('upgrade', db);
+    if (!db.objectStoreNames.contains('whiskeyStore')) {
+      objectStore = db.createObjectStore('whiskeyStore', {
+        keyPath: 'id',
+      });
+    }
+  });
+  document.getElementById('btnUpdate').addEventListener('click', (ev) => {
+    ev.preventDefault();
 
-});
+    let name = document.getElementById('name').value.trim();
+    let country = document.getElementById('country').value.trim();
+    let body =  document.getElementById('body').value.trim();
+    //id
+    let key = document.whiskeyForm.getAttribute('data-key');
+    if (key) {
+      let whiskey = {
+        id: key,
+        name,
+        country,
+        body
+      };
+      let tx = makeTX('whiskeyStore', 'readwrite');
+      tx.oncomplete = (ev) => {
+        console.log(ev);
+        buildList();
+        clearForm();
+      };
 
-document.postForm.addEventListener('submit', (ev) =>{
-	ev.preventDefault();
-	//one of the form  buttons was clicked 
-let title = document.getElementById('title').value.trim();
-let author = document.getElementById('author').value.trim();
-let body= document.getElementById('body').value.trim();
-	let post={
-		postId: uid(),
-		title,
-		author,
-		body,
-	};
+      let store = tx.objectStore('whiskeyStore');
+      let request = store.put(whiskey); //request a put/update
 
-	let tx = makeTX('PostStore', 'readwrite');
-	tx.oncomplete = (ev) =>{
-		console.log(ev);
-		buildList();
-		clearForm();
+      request.onsuccess = (ev) => {
+        console.log('successfully updated an object');
+        //move on to the next request in the transaction or
+        //commit the transaction
+      };
+      request.onerror = (err) => {
+        console.log('error in request to update');
+      };
+    }
+  });
 
-	};
+  document.getElementById('btnDelete').addEventListener('click', (ev) => {
+    ev.preventDefault();
+    //id
+    let key = document.whiskeyForm.getAttribute('data-key');
+    if (key) {
+      let tx = makeTX('whiskeyStore', 'readwrite');
+      tx.oncomplete = (ev) => {
+        console.log(ev);
+        buildList();
+        clearForm();
+      };
 
+      let store = tx.objectStore('whiskeyStore');
+      let request = store.delete(key); //request a delete
 
-	let store = tx.objectStore('PostStore');
-	let request = store.add(post);
-	request.onsuccess = (ev) =>{
-		console.log('Sucessfully added Object');
-	};
-	request.onerror = (err) =>{
-		console.log('Error in Request to Add');
-	};
-});
+      request.onsuccess = (ev) => {
+        console.log('successfully deleted an object');
+        //move on to the next request in the transaction or
+        //commit the transaction
+      };
+      request.onerror = (err) => {
+        console.log('error in request to delete');
+      };
+    }
+  });
+  // ;
 
-function buildList(){
-	let p = document.querySelector('#postList');
-	p.innerHTML = `<p>Post Loading...</p>`;
-	let tx = makeTX('PostStore', 'readonly');
-	tx.oncomplete = (ev)=>{
+  document.getElementById('btnAdd').addEventListener('click', (ev) => {
+    ev.preventDefault();
+    //one of the form buttons was clicked
 
-	}
-	let store = tx.objectStore('PostStore');
-	let getReq = store.getAll();
-	// returns an array
-	getReq.onsuccess = (ev)=>{
-		let request = ev.target;
-		console.log({request});
-		p.innerHTML = request.result.map(post =>{
-			return`<p data-key="${post.postId}"><span><b>Title:</b> ${post.title}</span></br> <span><b>Author:</b>${post.author}</span></br> <b>body:</b> ${post.body} </p> <hr>`
-		}).join('\n');
-	};
-   getReq.onerror = (ev)=>{
-   	console.warn(err);
-	};
-}
-//For selscting in a list
-document.querySelector('#postList').addEventListener('click', (ev) => {
-    let p = ev.target.closest('[data-key]');
-    let id = p.getAttribute('data-key');
-    console.log(p, id);
+    let name = document.getElementById('name').value.trim();
+    let country = document.getElementById('country').value.trim();
+    let body = document.getElementById('body').value.trim();
 
-    let tx = makeTX('PostStore', 'readonly');
+    let whiskey = {
+      id: uid(),
+      name,
+      country,
+      body,
+    };
+
+    let tx = makeTX('whiskeyStore', 'readwrite');
+    tx.oncomplete = (ev) => {
+      console.log(ev);
+      buildList();
+      clearForm();
+    };
+
+    let store = tx.objectStore('whiskeyStore');
+    let request = store.add(whiskey); //request an insert/add
+
+    request.onsuccess = (ev) => {
+      console.log('successfully added an object');
+      //move on to the next request in the transaction or
+      //commit the transaction
+    };
+    request.onerror = (err) => {
+      console.log('error in request to add');
+    };
+  });
+
+  function buildList() {
+    //use getAll to get an array of objects from our store
+    let list = document.querySelector('.wList');
+    list.innerHTML = `<li>Loading...</li>`;
+    let tx = makeTX('whiskeyStore', 'readonly');
+    tx.oncomplete = (ev) => {
+      //transaction for reading all objects is complete
+    };
+    let store = tx.objectStore('whiskeyStore');
+    let getReq = store.getAll();
+    //returns an array
+    //option can pass in a key or a keyRange
+    getReq.onsuccess = (ev) => {
+      //getAll was successful
+      let request = ev.target; //request === getReq === ev.target
+      console.log({ request });
+      list.innerHTML = request.result
+        .map((whiskey) => {
+          return `<p data-key="${whiskey.id}"><span><b>Title:</b>${whiskey.name}</span></br><span><b>Author:</b>${whiskey.country}</span></br> <b>Body:</b> ${whiskey.body}</p><hr>`;
+        })
+        .join('\n');
+    };
+    getReq.onerror = (err) => {
+      console.warn(err);
+    };
+  }
+
+  document.querySelector('.wList').addEventListener('click', (ev) => {
+    let li = ev.target.closest('[data-key]');
+    let id = li.getAttribute('data-key');
+    console.log(li, id);
+
+    let tx = makeTX('whiskeyStore', 'readonly');
     tx.oncomplete = (ev) => {
       //get transaction complete
     };
-    let store = tx.objectStore('PostStore');
-    let req = store.get(PostId);
+    let store = tx.objectStore('whiskeyStore');
+    let req = store.get(id);
     req.onsuccess = (ev) => {
       let request = ev.target;
-      let post = request.result;
-      document.getElementById('title').value = post.title;
-      document.getElementById('author').value = post.author;
-      document.getElementById('body').value = post.body;
-      document.postForm.setAttribute('data-key', post.postId);
+      let whiskey = request.result;
+      document.getElementById('name').value = whiskey.name;
+      document.getElementById('country').value = whiskey.country;
+      document.getElementById('body').value = whiskey.body;
+      
+      //put the whiskey id into a form attribute
+      document.whiskeyForm.setAttribute('data-key', whiskey.id);
     };
     req.onerror = (err) => {
       console.warn(err);
     };
   });
 
-function makeTX(storeName, mode){
-	let tx = db.transaction(storeName, mode);
-		tx.onerror = (err) =>{
-		console.warn(err);
-	};
-	return tx; 
-}
+  function makeTX(storeName, mode) {
+    let tx = db.transaction(storeName, mode);
+    tx.onerror = (err) => {
+      console.warn(err);
+    };
+    return tx;
+  }
 
-function clearForm(ev) {
-	if (ev) ev.preventDefault();
-	document.postForm.reset();
-}
-})();  
+  document.getElementById('btnClear').addEventListener('click', clearForm);
+
+  function clearForm(ev) {
+    if (ev) ev.preventDefault();
+    document.whiskeyForm.reset();
+    document.whiskeyForm.removeAttribute('data-key');
+  }
+})();

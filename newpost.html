@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
   <style>
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
     .row.content {height: 650px}
@@ -73,37 +74,47 @@
 
     <br><br>
         <div class="col-md-8">
+          <h4>Add Post Details here...</h4>
 
-  <form  name="postForm">
-                     
-                          <label></label><label class="validation-error hide" id="titleValidationError"></label><br>
-                          <input type="text" name="title" id="title" class="form-control" placeholder="Title">
-                      
-                          <label></label><br>
-                          <input type="text" name="author" id="author" class="form-control" placeholder="Author">
-                      
-                          <label></label><br>
-                          <textarea name="body" id="body" rows="5" class="form-control"></textarea><br>
-                     
-                          <input type="submit" value="Submit" class="btn btn-primary" style="background-color: #1D4ED8;"><br><br>
+          <form  name="whiskeyForm">
+          <fieldset>
+          <p>
+            <!-- <label for="name">Whiskey: </label> -->
+            <input type="text" id="name" class="form-control" placeholder="Title" required />
+          </p>
+          <p>
+            <!-- <label for="country">Country of Origin: </label> -->
+            <input type="text" id="country" class="form-control" value="" placeholder="Author" required />
+          </p>
+          <p>
+            <textarea name="body" id="body" rows="5" class="form-control" placeholder="Add your body post here.." required></textarea>          </p>
+          <p>
+            <button class="btn btn-success" id="btnAdd">Add Post</button>
+            <button class="btn btn-warning" id="btnUpdate">Update Post</button>
+            <button class="btn btn-danger" id="btnDelete">Delete Post</button>
+            <button class="btn btn-primary" id="btnClear">Reset Form</button>
+          </p>
+        </fieldset>
+                           <!-- <input type="submit" value="Submit" class="btn btn-primary" id="addPost" style="background-color: #1D4ED8;"><br><br> -->
                   </form>
-
-   </div>  
-</div>
-
+         <br> <br>
+                   </div>  
+                </div>
  
     </div>
      <div class="col-sm-9">
       <div class="well">
         <h4>Post  List</h4>
         <div class="row">
-          <div class="col-sm-9" id="postList">
-           
-          </div>
+       <p class="wList">
+          <!-- build list here -->
+        </p>
         </div>
       </div>
   </div>
 </div>
 <script type="module" src="postapp.js"></script>
+
 </body>
 </html>
+
