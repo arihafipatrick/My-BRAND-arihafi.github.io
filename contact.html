@@ -216,21 +216,18 @@ important, or more visually appealing and conceptual!</p>
 
       </div>
       <div class="col-md-4">
-  <form>
-      <input type="text" class="form-control" placeholder="First name"><br>
+  <form name="contactForm">
+      <input type="text" id="fname" class="form-control" placeholder="First name" required><span id="fnamevar" style="color:red;"></span><br>
    
-      <input type="text" class="form-control" placeholder="Last name"><br>
+      <input type="text" id="lname" class="form-control" placeholder="Last name" required><span id="lnamevar" style="color:red;"></span><br>
     
-      <input type="text" class="form-control" placeholder="Email"><br>
-   </div>
-
-    <div class="col-md-4">
-      <textarea  rows="6.5" class="form-control" placeholder="Message">
-      </textarea><br>
-    <button type="button" style="background-color: #1D4ED8;" class="btn btn-primary">Send Message</button>
+      <input type="email" name="email" pattern="[a-zA-z0-9]+@+gmail.com" title="[a-zA-z0-9]+@+gmail.com" id="email" class="form-control" placeholder="Email"  required><span id="email" style="color:red;"></span><br>
+      <textarea name="message" id="message" rows="3" class="form-control" placeholder="Add your message here"  required></textarea><span id="message" style="color:red;"></span><br>
+    <input type="submit" value="Send Message" class="btn btn-primary" style="background-color: #1D4ED8;">
     </form>
       </div>
   	</div>
+    <script src="thiscontactt.js"></script>
 </body>
 </html>
 
