@@ -36,13 +36,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="#">Logo</a>
+      <a class="navbar-brand" href="#">A.Patrick</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="#">Home</a></li>
-        <li class="active"><a href="#">Add New Post</a></li>
-        <li><a href="#">Comments</a></li>
+          <li><a href="admin2.html">Home</a></li>
+        <li><a href="newpost.html">Add New Post</a></li>
+        <li class="active"><a href="viewcomment.html">Comments</a></li>
         <li><a href="#">View All Blog Post</a></li>
       </ul>
     </div>
@@ -54,60 +54,41 @@
     <div class="col-sm-3 sidenav hidden-xs">
       <h2>A.Patrick</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li  class="active"><a href="admin2.html">Home</a></li>
+        <li><a href="admin2.html">Home</a></li>
         <li><a href="newpost.html">Add New Post</a></li>
         <li><a href="viewcomment.html">Comments</a></li>
-        <li><a href="viewmessage.html">Messages</a></li>
+        <li   class="active"><a href="viewmessage.html">Messages</a></li>
         <li><a href="#">View All Blog Post</a></li>
-         <input onclick="Logout()" type="submit" value="Logout" class="btn btn-primary" style="background-color: #1D4ED8;">
       </ul><br>
     </div>
     <br>
     
-    <div class="col-sm-9">
+    <!-- <div class="col-sm-9">
       <div class="well">
-        <h4><script>document.write(localStorage.getItem('username'));</script> Welcome to Admin Dashboard</h4>
-        <p>Enjoy the goodness of Programming..</p>
+        <h4>Add new Post Details Here</h4>
+        <p>Fill the form bellow..</p>
       </div>
-        
-<div class="row">
-        <div class="col-sm-3">
-          <div class="well">
-            <h4>Users</h4>
-            <p> 4 </p> 
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="well">
-            <h4>Posts</h4>
-            <p>100  </p> 
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="well">
-            <h4>Comments</h4>
-            <p>10k</p> 
-          </div>
-        </div>
+       <div class="row">
+        <div class="col-md-12">
+        </div> 
+       </div>
  
-    </div>
+    </div> -->
+     <div class="col-sm-9">
+      <div class="well">
+        <h4>View all messages from-contact form here 👇</h4>
+         <p>All messages bellow..</p>
+        <div class="row">
+          <div class="col-sm-9">
+           <p class="postList"> 
+            
+           </p>
+          </div>
+        </div>
+      </div>
   </div>
 </div>
+<script type="module" src="viewmessage.js"></script>
 
 </body>
- <script>
-        let name=localStorage.getItem('username')?localStorage.getItem('username'):''
-        console.log(username);
-        if(username=='')
-        {
-          alert('U need to login first');
-          window.location.href="login.html";
-        }
-        function Logout()
-        {
-          localStorage.removeItem('username');
-          localStorage.removeItem('password');
-          window.location.href="login.html";
-        }
-  </script>
 </html>
